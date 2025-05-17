@@ -22,7 +22,7 @@ slots:
         - $SNAP/share/icons/TelaBudgie
         - $SNAP/share/icons/TelaBudgie-dark
         - $SNAP/share/icons/TelaBudgie-light
-    gtk-2-themes:
+  gtk-2-themes:
     interface: content
     source:
       read:
