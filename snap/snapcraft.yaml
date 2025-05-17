@@ -1,0 +1,85 @@
+name: budgie-common-themes
+build-base: core24
+base: bare
+version: '2025-05'
+platforms:
+  all:
+    build-on: [amd64]
+    build-for: [all]
+summary: Themes used by Ubuntu Budgie
+description: |
+  A Snap that allows you to use Ubuntu Budgie themes in Snap apps
+grade: stable
+confinement: strict
+
+slots:
+  icon-themes:
+    interface: content
+    source:
+      read:
+        - $SNAP/share/icons/Pocillo
+        - $SNAP/share/icons/Pocillo-light
+        - $SNAP/share/icons/TelaBudgie
+        - $SNAP/share/icons/TelaBudgie-dark
+        - $SNAP/share/icons/TelaBudgie-light
+    gtk-2-themes:
+    interface: content
+    source:
+      read:
+        - $SNAP/share/gtk2/Pocillo
+        - $SNAP/share/gtk2/Pocillo-dark
+        - $SNAP/share/gtk2/Pocillo-light
+        - $SNAP/share/gtk2/Pocillo-slim
+        - $SNAP/share/gtk2/Pocillo-slim-dark
+        - $SNAP/share/gtk2/Pocillo-slim-light
+        - $SNAP/share/gtk2/QogirBudgie
+        - $SNAP/share/gtk2/QogirBudgie-Dark
+        - $SNAP/share/gtk2/QogirBudgie-Light
+  gtk-3-themes:
+    interface: content
+    source:
+      read:
+        - $SNAP/share/themes/Pocillo
+        - $SNAP/share/themes/Pocillo-dark
+        - $SNAP/share/themes/Pocillo-light
+        - $SNAP/share/themes/Pocillo-slim
+        - $SNAP/share/themes/Pocillo-slim-dark
+        - $SNAP/share/themes/Pocillo-slim-light
+        - $SNAP/share/themes/QogirBudgie
+        - $SNAP/share/themes/QogirBudgie-Dark
+        - $SNAP/share/themes/QogirBudgie-Light
+parts:
+  icon-themes:
+    plugin: dump
+    source: http://de.archive.ubuntu.com/ubuntu/pool/universe/b/budgie-artwork/pocillo-icon-theme_0.21.1_all.deb
+    override-build: |
+      snapcraftctl build
+      pwd
+      ls -l
+      mkdir -p $CRAFT_PART_INSTALL/share/icons
+      mv -f $CRAFT_PART_INSTALL/usr/share/icons/* $CRAFT_PART_INSTALL/share/icons
+    stage:
+      - share/icons/
+  gtk-2-themes:
+    plugin: dump
+    source: http://de.archive.ubuntu.com/ubuntu/pool/universe/b/budgie-artwork/ubuntu-budgie-themes_0.21.1_all.deb
+    override-build: |
+      snapcraftctl build
+      pwd
+      ls -l
+      mkdir -p $CRAFT_PART_INSTALL/share/gtk2
+      mv -f $CRAFT_PART_INSTALL/usr/share/themes/* $CRAFT_PART_INSTALL/share/gtk2
+    stage:
+      - share/gtk2/*/gtk-2.0
+  gtk-3-themes:
+    plugin: dump
+    source: http://de.archive.ubuntu.com/ubuntu/pool/universe/b/budgie-artwork/ubuntu-budgie-themes_0.21.1_all.deb
+    override-build: |
+      snapcraftctl build
+      pwd
+      ls -l
+      mkdir -p $CRAFT_PART_INSTALL/share/themes
+      mv -f $CRAFT_PART_INSTALL/usr/share/themes/* $CRAFT_PART_INSTALL/share/themes
+    stage:
+      - share/themes/*/gtk-3.0
+      - share/themes/*/gtk-4.0
