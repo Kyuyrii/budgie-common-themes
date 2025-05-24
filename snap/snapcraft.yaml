@@ -1,7 +1,9 @@
 name: budgie-common-themes
+title: Budgie Common Themes
 build-base: core24
 base: bare
 version: '2025-05'
+license: GPL-3.0
 platforms:
   all:
     build-on: [amd64]
@@ -11,6 +13,12 @@ description: |
   A Snap that allows you to use Ubuntu Budgie themes in Snap apps
 grade: stable
 confinement: strict
+
+source-code:
+  - https://github.com/UbuntuBudgie/pocillo
+  - https://github.com/Kyuyrii/budgie-common-themes
+website: https://ubuntubudgie.org/
+issues: https://github.com/Kyuyrii/budgie-common-themes/issues
 
 slots:
   icon-themes:
@@ -52,34 +60,24 @@ parts:
   icon-themes:
     plugin: dump
     source: http://de.archive.ubuntu.com/ubuntu/pool/universe/b/budgie-artwork/pocillo-icon-theme_0.21.1_all.deb
-    override-build: |
-      snapcraftctl build
-      pwd
-      ls -l
-      mkdir -p $CRAFT_PART_INSTALL/share/icons
-      mv -f $CRAFT_PART_INSTALL/usr/share/icons/* $CRAFT_PART_INSTALL/share/icons
-    stage:
+    organize:
+      usr/share/icons: share/icons
+    prime:
       - share/icons/
+
   gtk-2-themes:
     plugin: dump
     source: http://de.archive.ubuntu.com/ubuntu/pool/universe/b/budgie-artwork/ubuntu-budgie-themes_0.21.1_all.deb
-    override-build: |
-      snapcraftctl build
-      pwd
-      ls -l
-      mkdir -p $CRAFT_PART_INSTALL/share/gtk2
-      mv -f $CRAFT_PART_INSTALL/usr/share/themes/* $CRAFT_PART_INSTALL/share/gtk2
-    stage:
+    organize:
+      usr/share/themes: share/gtk2
+    prime:
       - share/gtk2/*/gtk-2.0
+
   gtk-3-themes:
     plugin: dump
     source: http://de.archive.ubuntu.com/ubuntu/pool/universe/b/budgie-artwork/ubuntu-budgie-themes_0.21.1_all.deb
-    override-build: |
-      snapcraftctl build
-      pwd
-      ls -l
-      mkdir -p $CRAFT_PART_INSTALL/share/themes
-      mv -f $CRAFT_PART_INSTALL/usr/share/themes/* $CRAFT_PART_INSTALL/share/themes
-    stage:
+    organize:
+      usr/share/themes: share/themes
+    prime:
       - share/themes/*/gtk-3.0
       - share/themes/*/gtk-4.0
